@@ -32,4 +32,9 @@ in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and r
 
 ---
 
+### AI Agent Information
+For information and guidelines on how to work with this project using AI agents, please refer to [AGENTS.md](GEMINI.md).
+
+---
+
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
