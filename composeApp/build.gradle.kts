@@ -28,6 +28,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.play.services.location)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -38,6 +39,10 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.moko.permissions.compose)
+            implementation(libs.moko.permissions.location)
+            implementation(libs.maplibre.compose)
+            implementation(compose.materialIconsExtended)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
