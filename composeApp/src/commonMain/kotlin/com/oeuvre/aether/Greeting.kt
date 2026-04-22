@@ -1,4 +1,4 @@
-package com.oeuvio.aether
+package com.oeuvre.aether
 
 class Greeting {
     private val platform = getPlatform()

@@ -46,11 +46,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.oeuvio.aether"
+    namespace = "com.oeuvre.aether"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.oeuvio.aether"
+        applicationId = "com.oeuvre.aether"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1

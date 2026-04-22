@@ -1,4 +1,4 @@
-package com.oeuvio.aether
+package com.oeuvre.aether
 
 interface Platform {
     val name: String

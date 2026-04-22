@@ -1,4 +1,4 @@
-package com.oeuvio.aether
+package com.oeuvre.aether
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image

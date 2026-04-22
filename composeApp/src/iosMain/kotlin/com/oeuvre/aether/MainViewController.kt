@@ -1,4 +1,4 @@
-package com.oeuvio.aether
+package com.oeuvre.aether
 
 import androidx.compose.ui.window.ComposeUIViewController
 
