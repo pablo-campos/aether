@@ -33,7 +33,7 @@ in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and r
 ---
 
 ### AI Agent Information
-For information and guidelines on how to work with this project using AI agents, please refer to [AGENTS.md](AGENTS.md).
+For information and guidelines on how to work with this project using AI agents, please refer to [AGENTS.md](GEMINI.md).
 
 ---
 
