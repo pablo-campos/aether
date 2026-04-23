@@ -29,6 +29,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.play.services.location)
+            implementation(libs.maps.compose)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -41,7 +42,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.moko.permissions.compose)
             implementation(libs.moko.permissions.location)
-            implementation(libs.maplibre.compose)
             implementation(compose.materialIconsExtended)
         }
         commonTest.dependencies {
@@ -60,6 +60,7 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        manifestPlaceholders["MAPS_API_KEY"] = project.findProperty("MAPS_API_KEY")?.toString() ?: ""
     }
     packaging {
         resources {

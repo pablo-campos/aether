@@ -14,7 +14,7 @@ junit = "4.13.2"
 kotlin = "2.3.20"
 material3 = "1.10.0-alpha05"
 moko-permissions = "0.20.1"
-maplibre-compose = "0.12.1"
+maps-compose = "8.3.0"
 play-services-location = "21.3.0"
 
 [libraries]
@@ -37,7 +37,7 @@ compose-components-resources = { module = "org.jetbrains.compose.components:comp
 compose-uiToolingPreview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "composeMultiplatform" }
 moko-permissions-compose  = { module = "dev.icerock.moko:permissions-compose",  version.ref = "moko-permissions" }
 moko-permissions-location = { module = "dev.icerock.moko:permissions-location", version.ref = "moko-permissions" }
-maplibre-compose          = { module = "org.maplibre.compose:maplibre-compose",  version.ref = "maplibre-compose" }
+maps-compose              = { module = "com.google.maps.android:maps-compose",          version.ref = "maps-compose" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
 
 [plugins]
