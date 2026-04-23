@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import com.oeuvre.aether.location.LatLng
 import com.oeuvre.aether.location.LocationService
 
-private val DEFAULT_POSITION = LatLng(latitude = 40.7128, longitude = -74.0060)
-private const val DEFAULT_ZOOM = 2f
+private val DEFAULT_POSITION = LatLng(latitude = 30.2672, longitude = -97.7431)
+private const val DEFAULT_ZOOM = 4f
 private const val USER_ZOOM = 14f
 
 @Composable
