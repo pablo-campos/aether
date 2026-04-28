@@ -9,13 +9,19 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import platform.CoreLocation.CLLocationCoordinate2DMake
 import platform.MapKit.MKCoordinateRegionMakeWithDistance
 import platform.MapKit.MKMapView
+import platform.UIKit.UIUserInterfaceStyle
 import kotlin.math.abs
 import kotlin.math.pow
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
 actual fun NativeMapView(modifier: Modifier, cameraState: MapCameraState) {
-    val mapView = remember { MKMapView() }
+    val mapView = remember {
+        MKMapView().also {
+            it.overrideUserInterfaceStyle = UIUserInterfaceStyle.UIUserInterfaceStyleDark
+            it.showsUserLocation = true
+        }
+    }
 
     LaunchedEffect(cameraState) {
         val coordinate = CLLocationCoordinate2DMake(

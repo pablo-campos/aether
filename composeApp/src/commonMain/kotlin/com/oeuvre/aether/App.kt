@@ -1,7 +1,9 @@
 package com.oeuvre.aether
 
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,6 +22,20 @@ import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import dev.icerock.moko.permissions.location.LOCATION
 import kotlinx.coroutines.launch
 
+private val AetherDarkColors = darkColorScheme(
+    background       = Color(0xFF000000),
+    onBackground     = Color(0xFFFFFFFF),
+    surface          = Color(0xFF0A0A0A),
+    onSurface        = Color(0xFFFFFFFF),
+    surfaceVariant   = Color(0xFF1C1C1C),
+    onSurfaceVariant = Color(0xFFCACACA),
+    primary          = Color(0xFF4FC3F7),
+    onPrimary        = Color(0xFF000000),
+    secondary        = Color(0xFF80CBC4),
+    onSecondary      = Color(0xFF000000),
+    outline          = Color(0xFF444444),
+)
+
 private sealed interface AppState {
     data object Checking : AppState
     data object NeedPermission : AppState
@@ -30,7 +46,7 @@ private sealed interface AppState {
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
+    MaterialTheme(colorScheme = AetherDarkColors) {
         val factory = rememberPermissionsControllerFactory()
         val controller = remember(factory) { factory.createPermissionsController() }
         BindEffect(controller)
