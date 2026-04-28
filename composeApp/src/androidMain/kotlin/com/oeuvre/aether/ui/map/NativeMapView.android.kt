@@ -41,7 +41,7 @@ actual fun NativeMapView(modifier: Modifier, cameraState: MapCameraState) {
         cameraPositionState = cameraPositionState,
         uiSettings = MapUiSettings(
             zoomControlsEnabled = false,
-            myLocationButtonEnabled = true
+            myLocationButtonEnabled = false
         ),
         properties = MapProperties(
             mapStyleOptions = mapStyleOptions,

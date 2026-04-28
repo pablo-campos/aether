@@ -19,6 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.oeuvre.aether.location.rememberLocationService
 import com.oeuvre.aether.ui.explore.ExploreContent
 import com.oeuvre.aether.ui.favorites.FavoritesContent
@@ -39,7 +41,11 @@ fun MainScreen() {
             modifier = Modifier.fillMaxSize(),
         )
 
-        NavigationBar(modifier = Modifier.align(Alignment.BottomCenter)) {
+        NavigationBar(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            containerColor = Color.Black,
+            tonalElevation = 0.dp,
+        ) {
             NavigationBarItem(
                 selected = selectedTab == NavTab.Explore,
                 onClick = {
@@ -63,6 +69,8 @@ fun MainScreen() {
         ModalBottomSheet(
             onDismissRequest = { selectedTab = null },
             sheetState = sheetState,
+            containerColor = Color.Black,
+            tonalElevation = 0.dp,
         ) {
             when (selectedTab) {
                 NavTab.Explore -> ExploreContent()
