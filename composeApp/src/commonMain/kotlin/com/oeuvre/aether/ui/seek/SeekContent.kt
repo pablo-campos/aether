@@ -1,4 +1,4 @@
-package com.oeuvre.aether.ui.explore
+package com.oeuvre.aether.ui.seek
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,13 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ExploreContent() {
+fun SeekContent() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
     ) {
-        Text("Explore", style = MaterialTheme.typography.headlineSmall)
+        Text("Seek", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(12.dp))
         OutlinedTextField(
             value = "",

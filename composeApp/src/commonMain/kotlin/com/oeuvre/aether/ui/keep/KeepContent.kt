@@ -1,4 +1,4 @@
-package com.oeuvre.aether.ui.favorites
+package com.oeuvre.aether.ui.keep
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,14 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun FavoritesContent() {
+fun KeepContent() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("Favorites", style = MaterialTheme.typography.headlineSmall)
+        Text("Keep", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(32.dp))
         Text(
             text = "No saved places yet",

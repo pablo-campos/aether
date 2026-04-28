@@ -6,9 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,12 +28,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.oeuvre.aether.location.rememberLocationService
-import com.oeuvre.aether.ui.explore.ExploreContent
-import com.oeuvre.aether.ui.favorites.FavoritesContent
+import com.oeuvre.aether.ui.keep.KeepContent
 import com.oeuvre.aether.ui.map.MapScreen
+import com.oeuvre.aether.ui.seek.SeekContent
 import kotlinx.coroutines.launch
 
-private enum class NavTab { Explore, Favorites }
+private enum class NavTab { Seek, Keep }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,7 +47,7 @@ fun MainScreen() {
         bottomSheetState = rememberStandardBottomSheetState(
             initialValue = SheetValue.Hidden,
             skipHiddenState = false,
-        )
+        ),
     )
 
     // Sync selectedTab with sheet state. 
@@ -68,30 +65,42 @@ fun MainScreen() {
                 tonalElevation = 0.dp,
             ) {
                 NavigationBarItem(
-                    selected = selectedTab == NavTab.Explore,
+                    selected = selectedTab == NavTab.Seek,
                     onClick = {
-                        if (selectedTab == NavTab.Explore) {
+                        if (selectedTab == NavTab.Seek) {
                             scope.launch { scaffoldState.bottomSheetState.hide() }
                         } else {
-                            selectedTab = NavTab.Explore
+                            selectedTab = NavTab.Seek
                             scope.launch { scaffoldState.bottomSheetState.partialExpand() }
                         }
                     },
-                    icon = { Icon(Icons.Default.Search, contentDescription = "Explore") },
-                    label = { Text("Explore") },
+                    icon = {
+                        Icon(
+                            imageVector = if (selectedTab == NavTab.Seek) AetherIcons.SeekFilled else AetherIcons.SeekOutlined,
+                            contentDescription = "Seek",
+                        )
+                    },
+                    label = { Text("Seek") },
+                    alwaysShowLabel = false,
                 )
                 NavigationBarItem(
-                    selected = selectedTab == NavTab.Favorites,
+                    selected = selectedTab == NavTab.Keep,
                     onClick = {
-                        if (selectedTab == NavTab.Favorites) {
+                        if (selectedTab == NavTab.Keep) {
                             scope.launch { scaffoldState.bottomSheetState.hide() }
                         } else {
-                            selectedTab = NavTab.Favorites
+                            selectedTab = NavTab.Keep
                             scope.launch { scaffoldState.bottomSheetState.partialExpand() }
                         }
                     },
-                    icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites") },
-                    label = { Text("Favorites") },
+                    icon = {
+                        Icon(
+                            imageVector = if (selectedTab == NavTab.Keep) AetherIcons.KeepFilled else AetherIcons.KeepOutlined,
+                            contentDescription = "Keep",
+                        )
+                    },
+                    label = { Text("Keep") },
+                    alwaysShowLabel = false,
                 )
             }
         }
@@ -109,8 +118,8 @@ fun MainScreen() {
                         .fillMaxSize() 
                 ) {
                     when (selectedTab) {
-                        NavTab.Explore -> ExploreContent()
-                        NavTab.Favorites -> FavoritesContent()
+                        NavTab.Seek -> SeekContent()
+                        NavTab.Keep -> KeepContent()
                         null -> Spacer(Modifier.height(1.dp))
                     }
                 }
