@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="iosApp/iosApp/Assets.xcassets/AppIcon.appiconset/AppIcon.svg" width="128" height="128" alt="Aether Logo" />
+</p>
+
+# Aether
+
 Aether is a modern travel app developed in Kotlin Multiplatform project targeting Android, iOS.
 
 * [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.

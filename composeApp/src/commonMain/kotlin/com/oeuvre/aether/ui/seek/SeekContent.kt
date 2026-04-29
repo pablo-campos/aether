@@ -17,18 +17,10 @@ fun SeekContent() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
     ) {
         Text("Seek", style = MaterialTheme.typography.headlineSmall)
-        Spacer(Modifier.height(12.dp))
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            readOnly = true,
-            placeholder = { Text("Search destinations…") },
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Spacer(Modifier.height(24.dp))
+        Spacer(Modifier.height(32.dp))
         Text(
             text = "Coming soon",
             style = MaterialTheme.typography.bodyMedium,

@@ -17,8 +17,7 @@ fun KeepContent() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+            .padding(horizontal = 16.dp)
     ) {
         Text("Keep", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(32.dp))
