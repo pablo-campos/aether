@@ -21,8 +21,7 @@ fun MapScreen(locationService: LocationService, modifier: Modifier = Modifier) {
     }
 
     LaunchedEffect(Unit) {
-        val userLocation = locationService.getCurrentLocation()
-        if (userLocation != null) {
+        locationService.getCurrentLocation()?.let { userLocation ->
             cameraState = MapCameraState(target = userLocation, zoom = USER_ZOOM)
         }
     }

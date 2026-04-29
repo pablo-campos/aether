@@ -20,7 +20,7 @@ object AetherIcons {
             stroke = SolidColor(Color.Black),
             strokeLineWidth = 2f,
             strokeLineCap = StrokeCap.Round,
-            strokeLineJoin = StrokeJoin.Round
+            strokeLineJoin = StrokeJoin.Round,
         ) {
             moveTo(7f, 5f)
             lineTo(19f, 12f)
@@ -37,7 +37,7 @@ object AetherIcons {
             viewportWidth = 24f,
             viewportHeight = 24f,
         ).path(
-            fill = SolidColor(Color.Black)
+            fill = SolidColor(Color.Black),
         ) {
             moveTo(7f, 5f)
             lineTo(19f, 12f)
@@ -57,7 +57,7 @@ object AetherIcons {
             stroke = SolidColor(Color.Black),
             strokeLineWidth = 2f,
             strokeLineCap = StrokeCap.Round,
-            strokeLineJoin = StrokeJoin.Round
+            strokeLineJoin = StrokeJoin.Round,
         ) {
             moveTo(5f, 5f)
             lineTo(15f, 5f)
@@ -76,7 +76,7 @@ object AetherIcons {
             viewportWidth = 24f,
             viewportHeight = 24f,
         ).path(
-            fill = SolidColor(Color.Black)
+            fill = SolidColor(Color.Black),
         ) {
             moveTo(5f, 5f)
             lineTo(15f, 5f)

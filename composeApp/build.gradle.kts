@@ -17,7 +17,7 @@ kotlin {
     
     listOf(
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
@@ -43,7 +43,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.moko.permissions.compose)
             implementation(libs.moko.permissions.location)
-            implementation(compose.materialIconsExtended)
+            implementation(libs.compose.material.icons.extended)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -51,7 +51,7 @@ kotlin {
     }
 }
 
-android {
+configure<com.android.build.api.dsl.ApplicationExtension> {
     namespace = "com.oeuvre.aether"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 

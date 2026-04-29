@@ -9,25 +9,30 @@ import androidx.core.location.LocationManagerCompat
 import com.google.android.gms.location.CurrentLocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.CancellationTokenSource
 import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 class AndroidLocationService(private val context: Context) : LocationService {
 
     private val fusedClient = LocationServices.getFusedLocationProviderClient(context)
 
-    override suspend fun getCurrentLocation(): LatLng? = suspendCoroutine { cont ->
+    override suspend fun getCurrentLocation(): LatLng? = suspendCancellableCoroutine { cont ->
+        val cts = CancellationTokenSource()
         val request = CurrentLocationRequest.Builder()
             .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
             .build()
         try {
-            fusedClient.getCurrentLocation(request, null)
+            fusedClient.getCurrentLocation(request, cts.token)
                 .addOnSuccessListener { loc ->
                     cont.resume(loc?.let { LatLng(it.latitude, it.longitude) })
                 }
                 .addOnFailureListener {
                     cont.resume(null)
                 }
+            cont.invokeOnCancellation {
+                cts.cancel()
+            }
         } catch (_: SecurityException) {
             cont.resume(null)
         }

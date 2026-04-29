@@ -80,28 +80,26 @@ fun App() {
                 title = "Location Access Required",
                 message = "Aether needs access to your precise location to show your position on the map and surface nearby destinations.",
                 actionLabel = "Allow",
-                onAction = {
-                    scope.launch {
-                        try {
-                            controller.providePermission(Permission.LOCATION)
-                            state = resolveState(controller, locationService)
-                        } catch (_: Exception) {
-                            state = AppState.NeedPermission
-                        }
+            ) {
+                scope.launch {
+                    state = try {
+                        controller.providePermission(Permission.LOCATION)
+                        resolveState(controller, locationService)
+                    } catch (_: Exception) {
+                        AppState.NeedPermission
                     }
-                },
-            )
+                }
+            }
 
             AppState.GpsDisabled -> LocationPermissionDialog(
                 title = "Enable Location Services",
                 message = "GPS is currently off. Please enable Location Services in your device settings so Aether can find you on the map.",
                 actionLabel = "Check Again",
-                onAction = {
-                    scope.launch {
-                        state = resolveState(controller, locationService)
-                    }
-                },
-            )
+            ) {
+                scope.launch {
+                    state = resolveState(controller, locationService)
+                }
+            }
 
             AppState.Ready -> MainScreen()
         }

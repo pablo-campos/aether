@@ -2,7 +2,7 @@
 agp = "9.2.0"
 android-compileSdk = "37"
 android-minSdk = "30"
-android-targetSdk = "36"
+android-targetSdk = "37"
 androidx-activity = "1.13.0"
 androidx-appcompat = "1.7.1"
 androidx-core = "1.18.0"
@@ -39,6 +39,7 @@ moko-permissions-compose  = { module = "dev.icerock.moko:permissions-compose",  
 moko-permissions-location = { module = "dev.icerock.moko:permissions-location", version.ref = "moko-permissions" }
 maps-compose              = { module = "com.google.maps.android:maps-compose",          version.ref = "maps-compose" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
+compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version = "1.7.3" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

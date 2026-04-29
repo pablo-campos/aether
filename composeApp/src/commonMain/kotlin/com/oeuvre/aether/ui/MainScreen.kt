@@ -103,7 +103,7 @@ fun MainScreen() {
                     alwaysShowLabel = false,
                 )
             }
-        }
+        },
     ) { paddingValues ->
         // We wrap BottomSheetScaffold in a Scaffold to keep the NavigationBar 
         // interactive and always visible at the bottom.
@@ -115,7 +115,7 @@ fun MainScreen() {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxSize() 
+                        .fillMaxSize(),
                 ) {
                     when (selectedTab) {
                         NavTab.Seek -> SeekContent()
