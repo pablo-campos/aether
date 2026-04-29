@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Change 'accent' to try different app icon colors (e.g., #60A5FA for bright blue) -->
+    <color name="accent">#7DB9FD</color>
+    <color name="background">#000000</color>
+</resources>
