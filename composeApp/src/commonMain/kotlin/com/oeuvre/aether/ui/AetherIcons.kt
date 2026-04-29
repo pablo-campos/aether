@@ -22,11 +22,15 @@ object AetherIcons {
             strokeLineCap = StrokeCap.Round,
             strokeLineJoin = StrokeJoin.Round,
         ) {
-            moveTo(5f, 19f)
-            lineTo(9.66f, 11f)
-            arcTo(4f, 4f, 0f, isMoreThanHalf = false, isPositiveArc = true, 14.34f, 11f)
-            lineTo(19f, 19f)
-            close()
+            moveTo(12f, 3f)
+            arcTo(9f, 9f, 0f, isMoreThanHalf = false, isPositiveArc = true, 12f, 21f)
+            arcTo(9f, 9f, 0f, isMoreThanHalf = false, isPositiveArc = true, 12f, 3f)
+        }.path(
+            fill = SolidColor(Color.Black),
+        ) {
+            moveTo(12f, 10f)
+            arcTo(2f, 2f, 0f, isMoreThanHalf = false, isPositiveArc = true, 12f, 14f)
+            arcTo(2f, 2f, 0f, isMoreThanHalf = false, isPositiveArc = true, 12f, 10f)
         }.build()
     }
 
@@ -40,11 +44,13 @@ object AetherIcons {
         ).path(
             fill = SolidColor(Color.Black),
         ) {
-            moveTo(5f, 19f)
-            lineTo(9.66f, 11f)
-            arcTo(4f, 4f, 0f, isMoreThanHalf = false, isPositiveArc = true, 14.34f, 11f)
-            lineTo(19f, 19f)
-            close()
+            moveTo(12f, 2f)
+            arcTo(10f, 10f, 0f, isMoreThanHalf = false, isPositiveArc = true, 12f, 22f)
+            arcTo(10f, 10f, 0f, isMoreThanHalf = false, isPositiveArc = true, 12f, 2f)
+
+            moveTo(12f, 9f)
+            arcTo(3f, 3f, 0f, isMoreThanHalf = false, isPositiveArc = false, 12f, 15f)
+            arcTo(3f, 3f, 0f, isMoreThanHalf = false, isPositiveArc = false, 12f, 9f)
         }.build()
     }
 
