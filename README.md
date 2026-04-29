@@ -6,7 +6,7 @@
 
 # Æther
 
-Æther is a modern travel app developed in Kotlin Multiplatform project targeting Android, iOS.
+A modern travel app developed in Kotlin Multiplatform project targeting Android, iOS.
 
 <p align="center">
   <img src="assets/main_ui.png" width="895" height="931" alt="Aether Logo" />
