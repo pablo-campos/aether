@@ -14,7 +14,7 @@ Aether is a modern travel app developed in Kotlin Multiplatform project targetin
 
 ---
 
-### Architecture:
+### Architecture
 * [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
   It contains several subfolders:
   - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
