@@ -22,9 +22,10 @@ object AetherIcons {
             strokeLineCap = StrokeCap.Round,
             strokeLineJoin = StrokeJoin.Round,
         ) {
-            moveTo(7f, 5f)
-            lineTo(19f, 12f)
-            lineTo(7f, 19f)
+            moveTo(5f, 19f)
+            lineTo(9.66f, 11f)
+            arcTo(4f, 4f, 0f, isMoreThanHalf = false, isPositiveArc = true, 14.34f, 11f)
+            lineTo(19f, 19f)
             close()
         }.build()
     }
@@ -39,9 +40,10 @@ object AetherIcons {
         ).path(
             fill = SolidColor(Color.Black),
         ) {
-            moveTo(7f, 5f)
-            lineTo(19f, 12f)
-            lineTo(7f, 19f)
+            moveTo(5f, 19f)
+            lineTo(9.66f, 11f)
+            arcTo(4f, 4f, 0f, isMoreThanHalf = false, isPositiveArc = true, 14.34f, 11f)
+            lineTo(19f, 19f)
             close()
         }.build()
     }

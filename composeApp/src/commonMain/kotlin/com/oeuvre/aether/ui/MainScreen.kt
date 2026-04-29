@@ -1,5 +1,7 @@
 package com.oeuvre.aether.ui
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +28,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.oeuvre.aether.location.rememberLocationService
 import com.oeuvre.aether.ui.keep.KeepContent
@@ -80,7 +83,16 @@ fun MainScreen() {
                             contentDescription = "Seek",
                         )
                     },
-                    label = { Text("Seek") },
+                    label = {
+                        val alpha by animateFloatAsState(
+                            targetValue = if (selectedTab == NavTab.Seek) 1f else 0f,
+                            animationSpec = tween(durationMillis = 100),
+                        )
+                        Text(
+                            text = "Seek",
+                            modifier = Modifier.graphicsLayer { this.alpha = alpha },
+                        )
+                    },
                     alwaysShowLabel = false,
                 )
                 NavigationBarItem(
@@ -99,7 +111,16 @@ fun MainScreen() {
                             contentDescription = "Keep",
                         )
                     },
-                    label = { Text("Keep") },
+                    label = {
+                        val alpha by animateFloatAsState(
+                            targetValue = if (selectedTab == NavTab.Keep) 1f else 0f,
+                            animationSpec = tween(durationMillis = 100),
+                        )
+                        Text(
+                            text = "Keep",
+                            modifier = Modifier.graphicsLayer { this.alpha = alpha },
+                        )
+                    },
                     alwaysShowLabel = false,
                 )
             }
