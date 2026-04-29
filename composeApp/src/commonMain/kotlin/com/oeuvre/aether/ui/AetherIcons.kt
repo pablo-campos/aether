@@ -67,12 +67,17 @@ object AetherIcons {
             strokeLineCap = StrokeCap.Round,
             strokeLineJoin = StrokeJoin.Round,
         ) {
-            moveTo(5f, 5f)
-            lineTo(15f, 5f)
-            arcTo(4f, 4f, 0f, isMoreThanHalf = false, isPositiveArc = true, 19f, 9f)
-            lineTo(19f, 19f)
-            lineTo(5f, 19f)
-            close()
+            moveTo(12f, 3f)
+            arcTo(9f, 9f, 0f, isMoreThanHalf = false, isPositiveArc = true, 12f, 21f)
+            arcTo(9f, 9f, 0f, isMoreThanHalf = false, isPositiveArc = true, 12f, 3f)
+        }.path(
+            stroke = SolidColor(Color.Black),
+            strokeLineWidth = 2f,
+            strokeLineCap = StrokeCap.Round,
+            strokeLineJoin = StrokeJoin.Round,
+        ) {
+            moveTo(4f, 20f)
+            lineTo(20f, 4f)
         }.build()
     }
 
@@ -86,11 +91,16 @@ object AetherIcons {
         ).path(
             fill = SolidColor(Color.Black),
         ) {
-            moveTo(5f, 5f)
-            lineTo(15f, 5f)
-            arcTo(4f, 4f, 0f, isMoreThanHalf = false, isPositiveArc = true, 19f, 9f)
-            lineTo(19f, 19f)
-            lineTo(5f, 19f)
+            // Circle — clockwise winding
+            moveTo(12f, 2f)
+            arcTo(10f, 10f, 0f, isMoreThanHalf = false, isPositiveArc = true, 12f, 22f)
+            arcTo(10f, 10f, 0f, isMoreThanHalf = false, isPositiveArc = true, 12f, 2f)
+            // Diagonal strip — counterclockwise winding cuts through the circle (non-zero rule)
+            // and fills the small extensions beyond the circle edge on each end
+            moveTo(4.7f, 20.7f)
+            lineTo(20.7f, 4.7f)
+            lineTo(19.3f, 3.3f)
+            lineTo(3.3f, 19.3f)
             close()
         }.build()
     }
