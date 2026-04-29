@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="iosApp/iosApp/Assets.xcassets/AppIcon.appiconset/AppLogo.svg" width="300" height="300" alt="Aether Logo" />
+  <img src="iosApp/iosApp/Assets.xcassets/AppIcon.appiconset/AppLogo.svg" width="450" height="450" alt="Aether Logo" />
 </p>
 
 # Aether
