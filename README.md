@@ -1,11 +1,16 @@
 <p align="center">
-  <img src="iosApp/iosApp/Assets.xcassets/AppIcon.appiconset/AppLogo.svg" width="450" height="450" alt="Aether Logo" />
+  <img src="assets/app_logo.svg" width="450" height="450" alt="Aether Logo" />
 </p>
 
 # Aether
 
 Aether is a modern travel app developed in Kotlin Multiplatform project targeting Android, iOS.
 
+<p align="center">
+  <img src="assets/main_ui.png" width="895" height="931" alt="Aether Logo" />
+</p>
+
+Architecture:
 * [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
   It contains several subfolders:
   - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
