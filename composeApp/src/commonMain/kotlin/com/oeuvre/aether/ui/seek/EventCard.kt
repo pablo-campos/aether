@@ -29,7 +29,14 @@ fun EventCard(event: Event, modifier: Modifier = Modifier) {
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.weight(1f),
                 )
-                Spacer(Modifier.width(8.dp))
+                event.startTime?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.secondary,
+                    )
+                    Spacer(Modifier.width(8.dp))
+                }
                 Text(
                     text = event.category,
                     style = MaterialTheme.typography.labelSmall,

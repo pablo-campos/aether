@@ -11,6 +11,7 @@ object SampleEvents {
             address = "Champ de Mars, 5 Av. Anatole France, 75007 Paris",
             location = LatLng(48.8584, 2.2945),
             category = "Landmark",
+            startTime = "09:00",
         ),
         Event(
             id = "2",
@@ -19,6 +20,7 @@ object SampleEvents {
             address = "Rue de Rivoli, 75001 Paris",
             location = LatLng(48.8606, 2.3376),
             category = "Museum",
+            startTime = "11:00",
         ),
         Event(
             id = "3",
@@ -27,6 +29,7 @@ object SampleEvents {
             address = "6 Parvis Notre-Dame, 75004 Paris",
             location = LatLng(48.8530, 2.3499),
             category = "Landmark",
+            startTime = "14:00",
         ),
         Event(
             id = "4",
@@ -35,6 +38,7 @@ object SampleEvents {
             address = "1 Rue de la Légion d'Honneur, 75007 Paris",
             location = LatLng(48.8600, 2.3266),
             category = "Museum",
+            startTime = "16:00",
         ),
     )
 }

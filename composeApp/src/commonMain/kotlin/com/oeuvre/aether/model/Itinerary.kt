@@ -2,13 +2,14 @@ package com.oeuvre.aether.model
 
 data class ItineraryStop(
     val event: Event,
-    val suggestedTime: String,
-    val notes: String,
+    val startTime: String,
+    val why: String,
 )
 
 data class Itinerary(
     val id: String,
-    val title: String,
+    val totalDuration: String,
     val stops: List<ItineraryStop>,
+    val routeInstructions: List<String>,
     val generatedAt: String,
 )

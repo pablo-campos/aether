@@ -33,7 +33,7 @@ fun KeepContent(viewModel: MainViewModel) {
 
         if (itineraries.isEmpty()) {
             Text(
-                text = "No saved places yet",
+                text = "No saved itineraries yet",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.outline,
             )
@@ -62,8 +62,14 @@ private fun ItineraryCard(itinerary: Itinerary, modifier: Modifier = Modifier) {
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(
-                text = itinerary.title,
+                text = "Itinerary: ${itinerary.id}",
                 style = MaterialTheme.typography.titleSmall,
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text = "Duration: ${itinerary.totalDuration}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.secondary,
             )
             Spacer(Modifier.height(4.dp))
             Text(
@@ -71,9 +77,36 @@ private fun ItineraryCard(itinerary: Itinerary, modifier: Modifier = Modifier) {
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary,
             )
-            Spacer(Modifier.height(4.dp))
+            
+            if (itinerary.stops.isNotEmpty()) {
+                Spacer(Modifier.height(8.dp))
+                itinerary.stops.forEach { stop ->
+                    Text(
+                        text = "• ${stop.startTime}: ${stop.event.name}",
+                        style = MaterialTheme.typography.labelMedium,
+                    )
+                }
+            }
+
+            if (itinerary.routeInstructions.isNotEmpty()) {
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    text = "Routes:",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.tertiary,
+                )
+                itinerary.routeInstructions.forEach { instruction ->
+                    Text(
+                        text = "→ $instruction",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.outline,
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(8.dp))
             Text(
-                text = itinerary.generatedAt,
+                text = "Generated at: ${itinerary.generatedAt}",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.outline,
             )

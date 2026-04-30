@@ -13,7 +13,7 @@ import kotlinx.serialization.json.Json
 class ItineraryManager(apiKey: String) {
 
     private val model = GenerativeModel(
-        modelName = "gemini-2.5-flash",
+        modelName = "gemini-1.5-flash",
         apiKey = apiKey,
         generationConfig = generationConfig {
             responseMimeType = "application/json"
@@ -39,10 +39,10 @@ class ItineraryManager(apiKey: String) {
         currentTime: LocalDateTime,
     ): String {
         val eventsJson = events.joinToString(",\n") { e ->
-            """{"id":"${e.id}","name":"${e.name}","category":"${e.category}","address":"${e.address}","description":"${e.description}"}"""
+            """{"id":"${e.id}","name":"${e.name}","category":"${e.category}","address":"${e.address}","description":"${e.description}","startTime":"${e.startTime ?: "N/A"}"}"""
         }
         return """
-You are a travel planner. Create a personalized day itinerary from the events below.
+I am sending a list of events from a mobile app. You are a local travel expert.
 
 Current time: $currentTime
 Current location: lat=${currentLocation.latitude}, lng=${currentLocation.longitude}
@@ -50,16 +50,23 @@ Current location: lat=${currentLocation.latitude}, lng=${currentLocation.longitu
 Events:
 [$eventsJson]
 
+1. Filter out events that have already passed based on the provided current time.
+2. Create a logical flow (e.g., Brunch -> Museum -> Live Music).
+3. Format strictly as JSON.
+4. Include a field routeInstructions which is a list of strings explaining how to get from one event to the next.
+
 Return ONLY a JSON object with this exact schema (no markdown, no extra text):
 {
-  "title": "string",
-  "stops": [
+  "itineraryId": "string",
+  "totalDuration": "string",
+  "activities": [
     {
       "eventId": "string",
-      "suggestedTime": "HH:mm",
-      "notes": "string"
+      "startTime": "HH:mm",
+      "why": "string"
     }
-  ]
+  ],
+  "routeInstructions": ["string"]
 }
         """.trimIndent()
     }
@@ -67,18 +74,31 @@ Return ONLY a JSON object with this exact schema (no markdown, no extra text):
     private fun parseItinerary(text: String, events: List<Event>, currentTime: LocalDateTime): Itinerary {
         val dto = json.decodeFromString<ItineraryDto>(text)
         val eventById = events.associateBy { it.id }
-        val stops = dto.stops.mapNotNull { stop ->
-            val event = eventById[stop.eventId] ?: return@mapNotNull null
-            ItineraryStop(event = event, suggestedTime = stop.suggestedTime, notes = stop.notes)
+        val stops = dto.activities.mapNotNull { activity ->
+            val event = eventById[activity.eventId] ?: return@mapNotNull null
+            ItineraryStop(event = event, startTime = activity.startTime, why = activity.why)
         }
-        val generatedAt = currentTime.toString()
-        val id = generatedAt.filter { it.isLetterOrDigit() }
-        return Itinerary(id = id, title = dto.title, stops = stops, generatedAt = generatedAt)
+        return Itinerary(
+            id = dto.itineraryId,
+            totalDuration = dto.totalDuration,
+            stops = stops,
+            routeInstructions = dto.routeInstructions,
+            generatedAt = currentTime.toString()
+        )
     }
 }
 
 @Serializable
-private data class ItineraryDto(val title: String, val stops: List<StopDto>)
+private data class ItineraryDto(
+    val itineraryId: String,
+    val totalDuration: String,
+    val activities: List<ActivityDto>,
+    val routeInstructions: List<String> = emptyList()
+)
 
 @Serializable
-private data class StopDto(val eventId: String, val suggestedTime: String, val notes: String)
+private data class ActivityDto(
+    val eventId: String,
+    val startTime: String,
+    val why: String
+)
