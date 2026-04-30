@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Aether is a Kotlin Multiplatform (KMP) travel app targeting Android and iOS, built with Compose Multiplatform. Package ID: `com.oeuvio.aether`.
+Æther is a Kotlin Multiplatform (KMP) travel app targeting Android and iOS, built with Compose Multiplatform. Package ID: `com.oeuvio.aether`.
 
 ## Build Commands
 

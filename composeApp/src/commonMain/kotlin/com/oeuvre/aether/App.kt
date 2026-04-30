@@ -78,7 +78,7 @@ fun App() {
 
             AppState.NeedPermission -> LocationPermissionDialog(
                 title = "Location Access Required",
-                message = "Aether needs access to your precise location to show your position on the map and surface nearby destinations.",
+                message = "Æther needs access to your precise location to show your position on the map and surface nearby destinations.",
                 actionLabel = "Allow",
             ) {
                 scope.launch {
@@ -93,7 +93,7 @@ fun App() {
 
             AppState.GpsDisabled -> LocationPermissionDialog(
                 title = "Enable Location Services",
-                message = "GPS is currently off. Please enable Location Services in your device settings so Aether can find you on the map.",
+                message = "GPS is currently off. Please enable Location Services in your device settings so Æther can find you on the map.",
                 actionLabel = "Check Again",
             ) {
                 scope.launch {

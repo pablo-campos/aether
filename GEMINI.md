@@ -1,9 +1,9 @@
-# Aether - AI Agent Guide
+# Æther - AI Agent Guide
 
-Welcome to the Aether project. This document provides essential context for AI agents to understand the project structure, technology stack, and development conventions.
+Welcome to the Æther project. This document provides essential context for AI agents to understand the project structure, technology stack, and development conventions.
 
 ## Project Overview
-**Aether** is a modern travel application built using **Kotlin Multiplatform (KMP)** and **Compose Multiplatform**. It targets Android and iOS with a high degree of code sharing for both business logic and UI.
+**Æther** is a modern travel application built using **Kotlin Multiplatform (KMP)** and **Compose Multiplatform**. It targets Android and iOS with a high degree of code sharing for both business logic and UI.
 
 ## Tech Stack
 - **Language:** Kotlin
@@ -31,5 +31,5 @@ Welcome to the Aether project. This document provides essential context for AI a
     - Keep `iosApp` as a thin wrapper around the shared Compose code.
 
 ## Key Files
-- `composeApp/src/commonMain/kotlin/com/oeuvio/aether/App.kt`: Main entry point for the shared UI. (Verify if this exists or similar)
+- `composeApp/src/commonMain/kotlin/com/oeuvre/aether/App.kt`: Main entry point for the shared UI.
 - `gradle/libs.versions.toml`: The source of truth for all library versions.

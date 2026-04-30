@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/app_logo.svg" width="450" height="450" alt="Aether Logo" />
+  <img src="assets/app_logo.svg" width="450" height="450" alt="Æther Logo" />
 </p>
 
 ---
@@ -9,7 +9,7 @@
 A modern travel app developed in Kotlin Multiplatform targeting Android and iOS.
 
 <p align="center">
-  <img src="assets/main_ui.png" width="895" height="931" alt="Aether Logo" />
+  <img src="assets/main_ui.png" width="895" height="931" alt="Æther Logo" />
 </p>
 
 ---

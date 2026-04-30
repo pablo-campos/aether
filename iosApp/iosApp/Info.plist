@@ -5,6 +5,6 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Aether uses your location to show nearby travel destinations and points of interest.</string>
+	<string>Æther uses your location to show nearby travel destinations and points of interest.</string>
 </dict>
 </plist>
