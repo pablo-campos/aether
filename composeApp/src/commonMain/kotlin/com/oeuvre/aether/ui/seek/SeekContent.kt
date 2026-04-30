@@ -95,7 +95,7 @@ private fun GenerateButton(onClick: () -> Unit) {
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
     ) {
-        Text("Generate Itinerary")
+        Text("Magic Plan")
     }
 }
 

@@ -8,8 +8,11 @@ import com.oeuvre.aether.model.Event
 import com.oeuvre.aether.model.Itinerary
 import com.oeuvre.aether.model.SampleEvents
 import com.oeuvre.aether.platform.geminiApiKey
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
@@ -32,6 +35,9 @@ class MainViewModel : ViewModel() {
     private val _genState = MutableStateFlow<GenState>(GenState.Idle)
     val genState: StateFlow<GenState> = _genState.asStateFlow()
 
+    private val _generationSuccess = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    val generationSuccess: SharedFlow<Unit> = _generationSuccess.asSharedFlow()
+
     fun generateItinerary(currentLocation: LatLng, currentTime: LocalDateTime) {
         viewModelScope.launch {
             _genState.value = GenState.Loading
@@ -39,6 +45,7 @@ class MainViewModel : ViewModel() {
                 val itinerary = manager.generatePlan(events.value, currentLocation, currentTime)
                 _savedItineraries.value = _savedItineraries.value + itinerary
                 _genState.value = GenState.Idle
+                _generationSuccess.tryEmit(Unit)
             } catch (e: Exception) {
                 _genState.value = GenState.Error(e.message ?: "Generation failed")
             }

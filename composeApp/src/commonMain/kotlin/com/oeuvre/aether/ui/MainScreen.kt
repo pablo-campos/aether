@@ -58,7 +58,15 @@ fun MainScreen() {
         ),
     )
 
-    // Sync selectedTab with sheet state. 
+    // After a Magic Plan is generated, switch to the Keep tab automatically.
+    LaunchedEffect(Unit) {
+        viewModel.generationSuccess.collect {
+            selectedTab = NavTab.Keep
+            scaffoldState.bottomSheetState.partialExpand()
+        }
+    }
+
+    // Sync selectedTab with sheet state.
     // If user swipes down to hide, we should clear the selected tab.
     LaunchedEffect(scaffoldState.bottomSheetState.currentValue) {
         if (scaffoldState.bottomSheetState.currentValue == SheetValue.Hidden) {
