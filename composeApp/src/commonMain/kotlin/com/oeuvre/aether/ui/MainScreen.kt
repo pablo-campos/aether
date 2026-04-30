@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.collectAsState
 import com.oeuvre.aether.location.rememberLocationService
 import com.oeuvre.aether.ui.keep.KeepContent
 import com.oeuvre.aether.ui.map.MapScreen
@@ -45,6 +46,8 @@ fun MainScreen() {
     val locationService = rememberLocationService()
     val viewModel = viewModel { MainViewModel() }
     val scope = rememberCoroutineScope()
+    val savedItineraries by viewModel.savedItineraries.collectAsState()
+    val activeItinerary = savedItineraries.lastOrNull()
 
     var selectedTab by remember { mutableStateOf<NavTab?>(null) }
 
@@ -156,6 +159,7 @@ fun MainScreen() {
         ) {
             MapScreen(
                 locationService = locationService,
+                itinerary = activeItinerary,
                 modifier = Modifier.fillMaxSize(),
             )
         }

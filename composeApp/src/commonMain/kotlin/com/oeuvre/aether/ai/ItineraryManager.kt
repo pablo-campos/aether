@@ -13,7 +13,7 @@ import kotlinx.serialization.json.Json
 class ItineraryManager(apiKey: String) {
 
     private val model = GenerativeModel(
-        modelName = "gemini-1.5-flash",
+        modelName = "gemini-2.5-flash",
         apiKey = apiKey,
         generationConfig = generationConfig {
             responseMimeType = "application/json"
