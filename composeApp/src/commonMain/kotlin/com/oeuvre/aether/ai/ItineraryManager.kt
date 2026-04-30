@@ -10,15 +10,26 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-class ItineraryManager(apiKey: String) {
+class ItineraryManager(private val apiKey: String) {
 
-    private val model = GenerativeModel(
-        modelName = "gemini-2.5-flash",
-        apiKey = apiKey,
-        generationConfig = generationConfig {
-            responseMimeType = "application/json"
-        },
-    )
+    // The model is created lazily so that a missing API key surfaces as a clear error
+    // at call time rather than silently during app startup.
+    // The underlying APIController sends the key via the "x-goog-api-key" HTTP header
+    // on every request (set by the Ktor client inside the library).
+    private val model: GenerativeModel by lazy {
+        check(apiKey.isNotBlank()) {
+            "GEMINI_API_KEY is missing. " +
+                "Android: add GEMINI_API_KEY to local.properties. " +
+                "iOS: add GEMINI_API_KEY to iosApp/Configuration/Config.xcconfig."
+        }
+        GenerativeModel(
+            modelName = "gemini-2.5-flash",
+            apiKey = apiKey,
+            generationConfig = generationConfig {
+                responseMimeType = "application/json"
+            },
+        )
+    }
 
     private val json = Json { ignoreUnknownKeys = true }
 
