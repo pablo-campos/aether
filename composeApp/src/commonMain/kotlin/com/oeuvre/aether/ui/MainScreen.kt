@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.oeuvre.aether.location.rememberLocationService
 import com.oeuvre.aether.ui.keep.KeepContent
 import com.oeuvre.aether.ui.map.MapScreen
@@ -42,6 +43,7 @@ private enum class NavTab { Seek, Keep }
 @Composable
 fun MainScreen() {
     val locationService = rememberLocationService()
+    val viewModel = viewModel { MainViewModel() }
     val scope = rememberCoroutineScope()
 
     var selectedTab by remember { mutableStateOf<NavTab?>(null) }
@@ -139,8 +141,8 @@ fun MainScreen() {
                         .fillMaxSize(),
                 ) {
                     when (selectedTab) {
-                        NavTab.Seek -> SeekContent()
-                        NavTab.Keep -> KeepContent()
+                        NavTab.Seek -> SeekContent(viewModel = viewModel, locationService = locationService)
+                        NavTab.Keep -> KeepContent(viewModel = viewModel)
                         null -> Spacer(Modifier.height(1.dp))
                     }
                 }

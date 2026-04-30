@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -44,6 +45,9 @@ kotlin {
             implementation(libs.moko.permissions.compose)
             implementation(libs.moko.permissions.location)
             implementation(libs.compose.material.icons.extended)
+            implementation(libs.generativeai.google)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.serialization.json)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -67,10 +71,18 @@ configure<com.android.build.api.dsl.ApplicationExtension> {
         if (localPropertiesFile.exists()) {
             localProperties.load(localPropertiesFile.inputStream())
         }
-        val mapsApiKey = localProperties.getProperty("MAPS_API_KEY") 
-            ?: project.findProperty("MAPS_API_KEY")?.toString() 
+        val mapsApiKey = localProperties.getProperty("MAPS_API_KEY")
+            ?: project.findProperty("MAPS_API_KEY")?.toString()
             ?: ""
         manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
+
+        val geminiApiKey = localProperties.getProperty("GEMINI_API_KEY")
+            ?: project.findProperty("GEMINI_API_KEY")?.toString()
+            ?: ""
+        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
+    }
+    buildFeatures {
+        buildConfig = true
     }
     packaging {
         resources {
