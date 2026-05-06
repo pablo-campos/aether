@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.UIKitView
+import com.oeuvre.aether.model.Event
 import com.oeuvre.aether.model.Itinerary
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -36,7 +37,12 @@ import kotlin.math.pow
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
-actual fun NativeMapView(modifier: Modifier, cameraState: MapCameraState, itinerary: Itinerary?) {
+actual fun NativeMapView(
+    modifier: Modifier,
+    cameraState: MapCameraState,
+    itinerary: Itinerary?,
+    nearbyEvents: List<Event>,
+) {
     val delegate = remember { MapViewDelegate() }
     val mapView = remember {
         MKMapView().also {
@@ -61,50 +67,62 @@ actual fun NativeMapView(modifier: Modifier, cameraState: MapCameraState, itiner
         }
     }
 
-    // Replace annotations and overlay whenever the itinerary changes.
-    LaunchedEffect(itinerary) {
+    // Replace annotations and overlay whenever the itinerary or nearbyEvents changes.
+    LaunchedEffect(itinerary, nearbyEvents) {
         mapView.removeAnnotations(mapView.annotations)
         currentPolyline?.let { mapView.removeOverlay(it) }
         currentPolyline = null
 
         val stops = itinerary?.stops.orEmpty()
-        if (stops.isEmpty()) return@LaunchedEffect
-
-        val annotations = stops.map { stop ->
-            MKPointAnnotation().also { ann ->
-                ann.setCoordinate(CLLocationCoordinate2DMake(
-                    stop.event.location.latitude,
-                    stop.event.location.longitude,
-                ))
-                ann.setTitle(stop.event.name)
-                ann.setSubtitle(stop.startTime)
-            }
-        }
-        mapView.addAnnotations(annotations)
-
-        if (stops.size >= 2) {
-            // CLLocationCoordinate2D = {Double latitude; Double longitude} = 16 bytes.
-            // Kotlin/Native 2.3+ lacks CPointer.plus for struct types, so we reinterpret
-            // as ByteVar (which supports plus) and use CValue.place to write each struct.
-            memScoped {
-                val coordsPtr = allocArray<CLLocationCoordinate2D>(stops.size)
-                val bytesPtr = coordsPtr.reinterpret<ByteVar>()
-                stops.forEachIndexed { i, stop ->
-                    CLLocationCoordinate2DMake(
+        if (stops.isNotEmpty()) {
+            val annotations = stops.map { stop ->
+                MKPointAnnotation().also { ann ->
+                    ann.setCoordinate(CLLocationCoordinate2DMake(
                         stop.event.location.latitude,
                         stop.event.location.longitude,
-                    ).place(
-                        (bytesPtr + (i.toLong() * 16L))!!.reinterpret<CLLocationCoordinate2D>()
-                    )
+                    ))
+                    ann.setTitle(stop.event.name)
+                    ann.setSubtitle(stop.startTime)
                 }
-                val polyline = MKPolyline.polylineWithCoordinates(coordsPtr, stops.size.toULong())
-                mapView.addOverlay(polyline, MKOverlayLevelAboveRoads)
-                currentPolyline = polyline
             }
-        }
+            mapView.addAnnotations(annotations)
 
-        // Zoom to fit all markers.
-        mapView.showAnnotations(annotations, animated = true)
+            if (stops.size >= 2) {
+                // CLLocationCoordinate2D = {Double latitude; Double longitude} = 16 bytes.
+                // Kotlin/Native 2.3+ lacks CPointer.plus for struct types, so we reinterpret
+                // as ByteVar (which supports plus) and use CValue.place to write each struct.
+                memScoped {
+                    val coordsPtr = allocArray<CLLocationCoordinate2D>(stops.size)
+                    val bytesPtr = coordsPtr.reinterpret<ByteVar>()
+                    stops.forEachIndexed { i, stop ->
+                        CLLocationCoordinate2DMake(
+                            stop.event.location.latitude,
+                            stop.event.location.longitude,
+                        ).place(
+                            (bytesPtr + (i.toLong() * 16L))!!.reinterpret<CLLocationCoordinate2D>()
+                        )
+                    }
+                    val polyline = MKPolyline.polylineWithCoordinates(coordsPtr, stops.size.toULong())
+                    mapView.addOverlay(polyline, MKOverlayLevelAboveRoads)
+                    currentPolyline = polyline
+                }
+            }
+
+            // Zoom to fit all markers.
+            mapView.showAnnotations(annotations, animated = true)
+        } else if (nearbyEvents.isNotEmpty()) {
+            val annotations = nearbyEvents.map { event ->
+                MKPointAnnotation().also { ann ->
+                    ann.setCoordinate(CLLocationCoordinate2DMake(
+                        event.location.latitude,
+                        event.location.longitude,
+                    ))
+                    ann.setTitle(event.name)
+                }
+            }
+            mapView.addAnnotations(annotations)
+            mapView.showAnnotations(annotations, animated = true)
+        }
     }
 
     UIKitView(factory = { mapView }, modifier = modifier)

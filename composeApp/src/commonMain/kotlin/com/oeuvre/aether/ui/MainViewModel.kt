@@ -3,6 +3,7 @@ package com.oeuvre.aether.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oeuvre.aether.ai.ItineraryManager
+import com.oeuvre.aether.data.ItineraryRepository
 import com.oeuvre.aether.location.LatLng
 import com.oeuvre.aether.model.Event
 import com.oeuvre.aether.model.Itinerary
@@ -21,6 +22,7 @@ class MainViewModel : ViewModel() {
 
     private val itineraryManager = ItineraryManager(geminiApiKey())
     private val placesRepository = PlacesRepository()
+    private val itineraryRepository = ItineraryRepository()
 
     sealed interface SeekUiState {
         data object Loading : SeekUiState
@@ -31,8 +33,11 @@ class MainViewModel : ViewModel() {
     private val _seekUiState = MutableStateFlow<SeekUiState>(SeekUiState.Loading)
     val seekUiState: StateFlow<SeekUiState> = _seekUiState.asStateFlow()
 
-    private val _savedItineraries = MutableStateFlow<List<Itinerary>>(emptyList())
+    private val _savedItineraries = MutableStateFlow<List<Itinerary>>(itineraryRepository.getItineraries())
     val savedItineraries: StateFlow<List<Itinerary>> = _savedItineraries.asStateFlow()
+
+    private val _selectedItinerary = MutableStateFlow<Itinerary?>(itineraryRepository.getItineraries().lastOrNull())
+    val selectedItinerary: StateFlow<Itinerary?> = _selectedItinerary.asStateFlow()
 
     sealed interface GenState {
         data object Idle : GenState
@@ -48,6 +53,7 @@ class MainViewModel : ViewModel() {
 
     fun loadNearbyPlaces(location: LatLng) {
         viewModelScope.launch {
+            _selectedItinerary.value = null
             _seekUiState.value = SeekUiState.Loading
             try {
                 val events = placesRepository.fetchNearby(location)
@@ -64,12 +70,27 @@ class MainViewModel : ViewModel() {
             _genState.value = GenState.Loading
             try {
                 val itinerary = itineraryManager.generatePlan(events, currentLocation, currentTime)
-                _savedItineraries.value = _savedItineraries.value + itinerary
+                itineraryRepository.addItinerary(itinerary)
+                _savedItineraries.value = itineraryRepository.getItineraries()
+                _selectedItinerary.value = itinerary
                 _genState.value = GenState.Idle
                 _generationSuccess.tryEmit(Unit)
             } catch (e: Exception) {
                 _genState.value = GenState.Error(e.message ?: "Generation failed")
             }
+        }
+    }
+
+    fun selectItinerary(itinerary: Itinerary?) {
+        _selectedItinerary.value = itinerary
+    }
+
+    fun deleteItinerary(id: String) {
+        itineraryRepository.deleteItinerary(id)
+        val updated = itineraryRepository.getItineraries()
+        _savedItineraries.value = updated
+        if (_selectedItinerary.value?.id == id) {
+            _selectedItinerary.value = updated.lastOrNull()
         }
     }
 

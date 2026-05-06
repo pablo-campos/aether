@@ -2,6 +2,7 @@ package com.oeuvre.aether.ui.map
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,10 +20,16 @@ import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 import com.oeuvre.aether.R
+import com.oeuvre.aether.model.Event
 import com.oeuvre.aether.model.Itinerary
 
 @Composable
-actual fun NativeMapView(modifier: Modifier, cameraState: MapCameraState, itinerary: Itinerary?) {
+actual fun NativeMapView(
+    modifier: Modifier,
+    cameraState: MapCameraState,
+    itinerary: Itinerary?,
+    nearbyEvents: List<Event>,
+) {
     val context = LocalContext.current
     val mapStyleOptions = remember {
         MapStyleOptions.loadRawResourceStyle(context, R.raw.map_dark_style)
@@ -76,22 +83,39 @@ actual fun NativeMapView(modifier: Modifier, cameraState: MapCameraState, itiner
     ) {
         val stops = itinerary?.stops.orEmpty()
 
-        stops.forEach { stop ->
-            Marker(
-                state = rememberMarkerState(
-                    position = GoogleLatLng(stop.event.location.latitude, stop.event.location.longitude),
-                ),
-                title = stop.event.name,
-                snippet = stop.startTime,
-            )
-        }
+        if (stops.isNotEmpty()) {
+            stops.forEach { stop ->
+                key(stop.event.id) {
+                    Marker(
+                        state = rememberMarkerState(
+                            position = GoogleLatLng(stop.event.location.latitude, stop.event.location.longitude),
+                        ),
+                        title = stop.event.name,
+                        snippet = stop.startTime,
+                    )
+                }
+            }
 
-        if (stops.size >= 2) {
-            Polyline(
-                points = stops.map { GoogleLatLng(it.event.location.latitude, it.event.location.longitude) },
-                color = Color(0xFF7DB9FD),
-                width = 8f,
-            )
+            if (stops.size >= 2) {
+                key(itinerary?.id) {
+                    Polyline(
+                        points = stops.map { GoogleLatLng(it.event.location.latitude, it.event.location.longitude) },
+                        color = Color(0xFF7DB9FD),
+                        width = 8f,
+                    )
+                }
+            }
+        } else {
+            nearbyEvents.forEach { event ->
+                key(event.id) {
+                    Marker(
+                        state = rememberMarkerState(
+                            position = GoogleLatLng(event.location.latitude, event.location.longitude),
+                        ),
+                        title = event.name,
+                    )
+                }
+            }
         }
     }
 }

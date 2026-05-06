@@ -1,7 +1,9 @@
 package com.oeuvre.aether.model
 
 import com.oeuvre.aether.location.LatLng
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Event(
     val id: String,
     val name: String,

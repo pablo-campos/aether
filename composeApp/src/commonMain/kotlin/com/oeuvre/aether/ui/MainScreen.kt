@@ -46,8 +46,10 @@ fun MainScreen() {
     val locationService = rememberLocationService()
     val viewModel = viewModel { MainViewModel() }
     val scope = rememberCoroutineScope()
-    val savedItineraries by viewModel.savedItineraries.collectAsState()
-    val activeItinerary = savedItineraries.lastOrNull()
+    val activeItinerary by viewModel.selectedItinerary.collectAsState()
+    val seekUiState by viewModel.seekUiState.collectAsState()
+
+    val nearbyEvents = (seekUiState as? MainViewModel.SeekUiState.Success)?.events ?: emptyList()
 
     var selectedTab by remember { mutableStateOf<NavTab?>(null) }
 
@@ -87,6 +89,7 @@ fun MainScreen() {
                             scope.launch { scaffoldState.bottomSheetState.hide() }
                         } else {
                             selectedTab = NavTab.Seek
+                            viewModel.selectItinerary(null)
                             scope.launch { scaffoldState.bottomSheetState.partialExpand() }
                         }
                     },
@@ -153,7 +156,13 @@ fun MainScreen() {
                 ) {
                     when (selectedTab) {
                         NavTab.Seek -> SeekContent(viewModel = viewModel, locationService = locationService)
-                        NavTab.Keep -> KeepContent(viewModel = viewModel)
+                        NavTab.Keep -> KeepContent(
+                            viewModel = viewModel,
+                            onItinerarySelected = { itinerary ->
+                                viewModel.selectItinerary(itinerary)
+                                scope.launch { scaffoldState.bottomSheetState.hide() }
+                            }
+                        )
                         null -> Spacer(Modifier.height(1.dp))
                     }
                 }
@@ -168,6 +177,7 @@ fun MainScreen() {
             MapScreen(
                 locationService = locationService,
                 itinerary = activeItinerary,
+                nearbyEvents = nearbyEvents,
                 modifier = Modifier.fillMaxSize(),
             )
         }

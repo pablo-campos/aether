@@ -63,12 +63,14 @@ Events:
 
 1. Filter out events that have already passed based on the provided current time.
 2. Create a logical flow (e.g., Brunch -> Museum -> Live Music).
-3. Format strictly as JSON.
-4. Include a field routeInstructions which is a list of strings explaining how to get from one event to the next.
+3. Identify the city where these events are located.
+4. Format strictly as JSON.
+5. Include a field routeInstructions which is a list of strings explaining how to get from one event to the next.
 
 Return ONLY a JSON object with this exact schema (no markdown, no extra text):
 {
   "itineraryId": "string",
+  "city": "string",
   "totalDuration": "string",
   "activities": [
     {
@@ -91,6 +93,7 @@ Return ONLY a JSON object with this exact schema (no markdown, no extra text):
         }
         return Itinerary(
             id = dto.itineraryId,
+            city = dto.city,
             totalDuration = dto.totalDuration,
             stops = stops,
             routeInstructions = dto.routeInstructions,
@@ -102,6 +105,7 @@ Return ONLY a JSON object with this exact schema (no markdown, no extra text):
 @Serializable
 private data class ItineraryDto(
     val itineraryId: String,
+    val city: String,
     val totalDuration: String,
     val activities: List<ActivityDto>,
     val routeInstructions: List<String> = emptyList()
