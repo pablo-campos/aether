@@ -32,8 +32,10 @@ object AetherIcons {
             strokeLineCap = StrokeCap.Round,
             strokeLineJoin = StrokeJoin.Round,
         ) {
-            moveTo(3f, 12f)
-            lineTo(21f, 12f)
+            moveTo(5.64f, 5.64f)
+            lineTo(18.36f, 18.36f)
+            moveTo(18.36f, 5.64f)
+            lineTo(5.64f, 18.36f)
         }.build()
     }
 
@@ -51,11 +53,19 @@ object AetherIcons {
             moveTo(12f, 2f)
             arcTo(10f, 10f, 0f, isMoreThanHalf = false, isPositiveArc = true, 12f, 22f)
             arcTo(10f, 10f, 0f, isMoreThanHalf = false, isPositiveArc = true, 12f, 2f)
-            // Horizontal strip — counterclockwise winding cuts through the circle (non-zero rule)
-            moveTo(2f, 11f)
-            lineTo(2f, 13f)
-            lineTo(22f, 13f)
-            lineTo(22f, 11f)
+            // X — counterclockwise winding cuts through the circle
+            moveTo(19.78f, 18.36f)
+            lineTo(13.41f, 12f)
+            lineTo(19.78f, 5.64f)
+            lineTo(18.36f, 4.22f)
+            lineTo(12f, 10.59f)
+            lineTo(5.64f, 4.22f)
+            lineTo(4.22f, 5.64f)
+            lineTo(10.59f, 12f)
+            lineTo(4.22f, 18.36f)
+            lineTo(5.64f, 19.78f)
+            lineTo(12f, 13.41f)
+            lineTo(18.36f, 19.78f)
             close()
         }.build()
     }
