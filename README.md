@@ -20,6 +20,14 @@ A modern travel app developed in Kotlin Multiplatform targeting Android and iOS.
 
 ---
 
+### Core Functionality
+- **Native Maps Integration**: Uses **Google Maps** on Android and **Apple Maps** on iOS to provide a high-quality, platform-native mapping experience.
+- **Place Search**: Leverages the **Google Places API** to allow users to search for and discover interesting locations.
+- **AI-Powered Plans**: Utilizes the **Gemini API** to automatically generate "magic" itineraries based on user preferences.
+- **Persistent Storage**: Save and manage your favorite itineraries with **native app storage**, ensuring your plans are available even when offline.
+
+---
+
 ### Architecture
 * [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
   It contains several subfolders:
