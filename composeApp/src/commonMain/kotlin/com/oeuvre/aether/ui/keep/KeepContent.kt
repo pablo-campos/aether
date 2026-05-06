@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.oeuvre.aether.model.Itinerary
 import com.oeuvre.aether.ui.MainViewModel
@@ -41,6 +42,7 @@ fun KeepContent(
     onItinerarySelected: (Itinerary) -> Unit = {}
 ) {
     val itineraries by viewModel.savedItineraries.collectAsState()
+    val selectedMappedItinerary by viewModel.selectedItinerary.collectAsState()
     var selectedItineraryId by remember { mutableStateOf<String?>(null) }
 
     Column(
@@ -71,6 +73,7 @@ fun KeepContent(
                     } else {
                         ItineraryListItem(
                             itinerary = itinerary,
+                            isMapped = itinerary.id == selectedMappedItinerary?.id,
                             onClick = { selectedItineraryId = itinerary.id },
                             onMapClick = { onItinerarySelected(itinerary) },
                             onDelete = { viewModel.deleteItinerary(itinerary.id) }
@@ -88,6 +91,7 @@ fun KeepContent(
 @Composable
 private fun ItineraryListItem(
     itinerary: Itinerary,
+    isMapped: Boolean,
     onClick: () -> Unit,
     onMapClick: () -> Unit,
     onDelete: () -> Unit,
@@ -134,7 +138,7 @@ private fun ItineraryListItem(
                     Icon(
                         imageVector = Icons.Default.Map,
                         contentDescription = "Show on Map",
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = if (isMapped) MaterialTheme.colorScheme.primary else Color.White,
                         modifier = Modifier.size(24.dp)
                     )
                 }
