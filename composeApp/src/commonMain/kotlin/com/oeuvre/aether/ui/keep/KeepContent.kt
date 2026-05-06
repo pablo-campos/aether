@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.oeuvre.aether.model.Itinerary
 import com.oeuvre.aether.ui.MainViewModel
+import com.oeuvre.aether.util.formatCategory
 
 @Composable
 fun KeepContent(viewModel: MainViewModel) {
@@ -81,10 +82,18 @@ private fun ItineraryCard(itinerary: Itinerary, modifier: Modifier = Modifier) {
             if (itinerary.stops.isNotEmpty()) {
                 Spacer(Modifier.height(8.dp))
                 itinerary.stops.forEach { stop ->
-                    Text(
-                        text = "• ${stop.startTime}: ${stop.event.name}",
-                        style = MaterialTheme.typography.labelMedium,
-                    )
+                    Column(modifier = Modifier.padding(vertical = 2.dp)) {
+                        Text(
+                            text = "• ${stop.startTime}: ${stop.event.name}",
+                            style = MaterialTheme.typography.labelMedium,
+                        )
+                        Text(
+                            text = stop.event.category.formatCategory(),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(start = 12.dp)
+                        )
+                    }
                 }
             }
 

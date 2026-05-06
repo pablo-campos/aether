@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.oeuvre.aether.model.Event
+import com.oeuvre.aether.util.formatCategory
 
 @Composable
 fun EventCard(event: Event, modifier: Modifier = Modifier) {
@@ -38,7 +39,7 @@ fun EventCard(event: Event, modifier: Modifier = Modifier) {
                     Spacer(Modifier.width(8.dp))
                 }
                 Text(
-                    text = event.category,
+                    text = event.category.formatCategory(),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary,
                 )
