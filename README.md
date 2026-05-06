@@ -9,7 +9,13 @@
 A modern travel app developed in Kotlin Multiplatform targeting Android and iOS.
 
 <p align="center">
-  <img src="assets/main_ui.png" width="895" height="931" alt="Æther Logo" />
+  <img src="assets/1.png" width="250" alt="Screen 1" />
+  <img src="assets/2.png" width="250" alt="Screen 2" />
+  <img src="assets/3.png" width="250" alt="Screen 3" />
+  <br />
+  <img src="assets/4.png" width="250" alt="Screen 4" />
+  <img src="assets/5.png" width="250" alt="Screen 5" />
+  <img src="assets/6.png" width="250" alt="Screen 6" />
 </p>
 
 ---
