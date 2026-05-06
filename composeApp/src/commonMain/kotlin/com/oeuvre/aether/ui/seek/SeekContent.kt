@@ -39,12 +39,20 @@ fun SeekContent(viewModel: MainViewModel, locationService: LocationService) {
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-        val location = locationService.getCurrentLocation()
-        if (location == null) {
-            viewModel.reportSeekError("Location unavailable")
-            return@LaunchedEffect
+        val currentState = seekUiState
+        val shouldLoad = when (currentState) {
+            is MainViewModel.SeekUiState.Success -> currentState.events.isEmpty()
+            else -> true
         }
-        viewModel.loadNearbyPlaces(location)
+
+        if (shouldLoad) {
+            val location = locationService.getCurrentLocation()
+            if (location == null) {
+                viewModel.reportSeekError("Location unavailable")
+                return@LaunchedEffect
+            }
+            viewModel.loadNearbyPlaces(location)
+        }
     }
 
     Column(
