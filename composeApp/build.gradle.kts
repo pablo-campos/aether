@@ -32,6 +32,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.play.services.location)
             implementation(libs.maps.compose)
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -48,6 +49,12 @@ kotlin {
             implementation(libs.generativeai.google)
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -80,6 +87,11 @@ configure<com.android.build.api.dsl.ApplicationExtension> {
             ?: project.findProperty("GEMINI_API_KEY")?.toString()
             ?: ""
         buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
+
+        val placesApiKey = localProperties.getProperty("PLACES_API_KEY")
+            ?: project.findProperty("PLACES_API_KEY")?.toString()
+            ?: ""
+        buildConfigField("String", "PLACES_API_KEY", "\"$placesApiKey\"")
     }
     buildFeatures {
         buildConfig = true

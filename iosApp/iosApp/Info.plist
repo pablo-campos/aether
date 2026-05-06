@@ -6,6 +6,8 @@
 	<true/>
 	<key>GEMINI_API_KEY</key>
 	<string>$(GEMINI_API_KEY)</string>
+	<key>PLACES_API_KEY</key>
+	<string>$(PLACES_API_KEY)</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Æther uses your location to show nearby travel destinations and points of interest.</string>
 </dict>
