@@ -18,6 +18,10 @@ import kotlinx.cinterop.plus
 import kotlinx.cinterop.reinterpret
 import platform.CoreLocation.CLLocationCoordinate2D
 import platform.CoreLocation.CLLocationCoordinate2DMake
+import platform.CoreGraphics.CGPointMake
+import platform.CoreGraphics.CGRectMake
+import platform.MapKit.MKAnnotationProtocol
+import platform.MapKit.MKAnnotationView
 import platform.MapKit.MKCoordinateRegionMakeWithDistance
 import platform.MapKit.MKMapView
 import platform.MapKit.MKMapViewDelegateProtocol
@@ -27,10 +31,15 @@ import platform.MapKit.MKOverlayRenderer
 import platform.MapKit.MKPointAnnotation
 import platform.MapKit.MKPolyline
 import platform.MapKit.MKPolylineRenderer
+import platform.MapKit.MKUserLocation
 import platform.MapKit.addOverlay
 import platform.MapKit.removeOverlay
+import platform.UIKit.NSTextAlignmentCenter
 import platform.UIKit.UIColor
+import platform.UIKit.UIFont
+import platform.UIKit.UILabel
 import platform.UIKit.UIUserInterfaceStyle
+import platform.UIKit.UIView
 import platform.darwin.NSObject
 import kotlin.math.abs
 import kotlin.math.pow
@@ -61,7 +70,7 @@ actual fun NativeMapView(
                 cameraState.target.longitude,
             )
             val meters = zoomToMeters(cameraState.zoom)
-            val maxSafeMeters = (180.0 - 2.0 * abs(cameraState.target.latitude)) * 111_000.0
+            val maxSafeMeters = (180.0 - (2.0 * abs(cameraState.target.latitude))) * 111_000.0
             val safeMeters = meters.coerceAtMost(maxSafeMeters.coerceAtLeast(100.0))
             mapView.setRegion(MKCoordinateRegionMakeWithDistance(coordinate, safeMeters, safeMeters), animated = true)
         }
@@ -75,8 +84,8 @@ actual fun NativeMapView(
 
         val stops = itinerary?.stops.orEmpty()
         if (stops.isNotEmpty()) {
-            val annotations = stops.map { stop ->
-                MKPointAnnotation().also { ann ->
+            val annotations = stops.mapIndexed { index, stop ->
+                NumberedAnnotation(index + 1).also { ann ->
                     ann.setCoordinate(CLLocationCoordinate2DMake(
                         stop.event.location.latitude,
                         stop.event.location.longitude,
@@ -128,10 +137,75 @@ actual fun NativeMapView(
     UIKitView(factory = { mapView }, modifier = modifier)
 }
 
+@OptIn(ExperimentalForeignApi::class)
+private class NumberedAnnotation(val number: Int) : MKPointAnnotation()
+
 private fun zoomToMeters(zoom: Float): Double =
-    20_000_000.0 / 2.0.pow((zoom - 2.0).toDouble())
+    20_000_000.0 / 2.0.pow(zoom - 2.0)
 
 private class MapViewDelegate : NSObject(), MKMapViewDelegateProtocol {
+    @OptIn(ExperimentalForeignApi::class)
+    override fun mapView(mapView: MKMapView, viewForAnnotation: MKAnnotationProtocol): MKAnnotationView? {
+        if (viewForAnnotation is MKUserLocation) return null
+
+        val identifier = "EventMarker"
+        var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
+
+        if (annotationView == null) {
+            annotationView = MKAnnotationView(annotation = viewForAnnotation, reuseIdentifier = identifier)
+            annotationView.canShowCallout = true
+        } else {
+            annotationView.annotation = viewForAnnotation
+        }
+
+        // Remove old subviews to avoid doubling up on reuse
+        annotationView.subviews.filterIsInstance<UIView>().forEach { 
+            it.removeFromSuperview()
+        }
+
+        val isNumbered = viewForAnnotation is NumberedAnnotation
+        val size = if (isNumbered) 32.0 else 24.0
+        val lineWeight = 2.0
+        val lineHeight = 6.0
+        val totalHeight = size + lineHeight
+
+        annotationView.setFrame(CGRectMake(0.0, 0.0, size, totalHeight))
+        annotationView.centerOffset = CGPointMake(0.0, -totalHeight / 2.0)
+
+        val blueColor = UIColor.colorWithRed(
+            red = 0x19 / 255.0,
+            green = 0x76 / 255.0,
+            blue = 0xD2 / 255.0,
+            alpha = 1.0,
+        )
+
+        val circle = UIView(frame = CGRectMake(0.0, 0.0, size, size)).apply {
+            backgroundColor = blueColor
+            layer.cornerRadius = size / 2.0
+            layer.borderWidth = 1.0
+            layer.borderColor = UIColor.whiteColor.CGColor
+        }
+
+        val line = UIView(frame = CGRectMake((size - lineWeight) / 2.0, size, lineWeight, lineHeight)).apply {
+            backgroundColor = UIColor.whiteColor
+        }
+
+        annotationView.addSubview(circle)
+        annotationView.addSubview(line)
+
+        if (viewForAnnotation is NumberedAnnotation) {
+            val label = UILabel(frame = circle.bounds).apply {
+                text = viewForAnnotation.number.toString()
+                textColor = UIColor.whiteColor
+                textAlignment = NSTextAlignmentCenter
+                font = UIFont.boldSystemFontOfSize(14.0)
+            }
+            circle.addSubview(label)
+        }
+
+        return annotationView
+    }
+
     override fun mapView(mapView: MKMapView, rendererForOverlay: MKOverlayProtocol): MKOverlayRenderer {
         val polyline = rendererForOverlay as? MKPolyline
         if (polyline != null) {
