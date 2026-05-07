@@ -12,7 +12,7 @@ data class ItineraryStop(
 @Serializable
 data class Itinerary(
     val id: String,
-    val city: String,
+    val title: String,
     val totalDuration: String,
     val stops: List<ItineraryStop>,
     val routeInstructions: List<String>,

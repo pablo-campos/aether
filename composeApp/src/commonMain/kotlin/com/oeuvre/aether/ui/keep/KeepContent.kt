@@ -118,7 +118,7 @@ private fun ItineraryListItem(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = itinerary.city,
+                    text = itinerary.title,
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
@@ -172,7 +172,7 @@ private fun ItineraryDetailCard(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = itinerary.city,
+                        text = itinerary.title,
                         style = MaterialTheme.typography.titleMedium,
                     )
                     Text(
